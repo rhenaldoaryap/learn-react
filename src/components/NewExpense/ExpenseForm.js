@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
@@ -59,7 +59,7 @@ const ExpenseForm = () => {
       date: new Date(enteredDate),
     };
 
-    console.log(enteredData);
+    props.onSaveExpenseData(enteredData);
     /*
     set back to empty string which is initial state to clear all input elements
     this style is so-called two-way binding
