@@ -1,3 +1,6 @@
+import React from "react";
+
+import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 
 const App = () => {
@@ -28,10 +31,20 @@ const App = () => {
     },
   ];
 
+  /*
+    under the hood, react work like this:
+    return React.createElement(
+      "div",
+      {},
+      React.createElement("h2", {}, "Lets get started!"),
+      React.createElement(Expenses, { item: expenses })
+    )
+   */
+
   return (
     <div>
-      <h2>Let's get started!</h2>
-      <Expenses item={expenses} />
+      <NewExpense />
+      <Expenses items={expenses} />
     </div>
   );
 };
