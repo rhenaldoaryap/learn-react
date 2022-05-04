@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ExpenseForm from "./ExpenseForm";
 import "./NewExpense.css";
 
 const NewExpense = (props) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   /*
   Child-to-Parent Component Communication (Bottom-up)
   we execute saveExpenseDataHandler at our custom component, ExpenseForm at the submitHandler
   */
+
+  const startEditingHandler = () => {
+    setIsEditing(true);
+  };
 
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
@@ -14,11 +20,22 @@ const NewExpense = (props) => {
       id: Math.random().toString(),
     };
     props.onAddExpense(expenseData);
+    setIsEditing(false);
+  };
+
+  const stopEditingHandler = () => {
+    setIsEditing(false);
   };
 
   return (
     <div className="new-expense">
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />
+      {!isEditing && <button onClick={startEditingHandler}>Add Expense</button>}
+      {isEditing && (
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          onCancel={stopEditingHandler}
+        />
+      )}
     </div>
   );
 };
