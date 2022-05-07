@@ -12,9 +12,36 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes("@") && enteredPassword.trim().length > 6
-    );
+    const identifier = setTimeout(() => {
+      console.log(
+        "this useEffect will run for the initial render / first time when script rendered"
+      );
+      /*
+      with useEffect cleanup function (returning anonymous function)
+      we only run setFormIsValid state function once based on what users type
+      in email / password input, and we are not listening for everykey stroke and this can helps us to avoid
+      sending a lot of HTTP request to server
+
+      the key is how many the timer we set for 'pause' listening for what users entered
+      */
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      console.log(
+        "this will helps us to 'cleanup' function and not listening for every keystroke, bcs can send lot of HTTP request and does not run before very first useEffect execution"
+      );
+      /*
+      clear the setTimeout to make sure we clear the last useEffect execution
+      and that means we not listening for every keystroke that can lead to send a lot of HTTP request
+      but we will listening to what users input every 500ms (we can set it to more higher to avoid sending lot of HTTP req)
+      atau bahasa gampangnya
+      we clear the last set timer before we set a new one
+      */
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
