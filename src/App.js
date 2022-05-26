@@ -1,21 +1,17 @@
-import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 
-import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
-import MainHeader from "./components/MainHeader/MainHeader";
-import AuthContext from "./store/auth-context";
+import Cart from "./components/Cart/Cart";
+import Layout from "./components/Layout/Layout";
+import Products from "./components/Shop/Products";
 
 function App() {
-  const contextDataProvider = useContext(AuthContext);
+  const cartIsVisible = useSelector((state) => state.ui.cartIsVisible);
 
   return (
-    <React.Fragment>
-      <MainHeader />
-      <main>
-        {!contextDataProvider.isLoggedIn && <Login />}
-        {contextDataProvider.isLoggedIn && <Home />}
-      </main>
-    </React.Fragment>
+    <Layout>
+      {cartIsVisible && <Cart />}
+      <Products />
+    </Layout>
   );
 }
 
